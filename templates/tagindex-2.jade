@@ -1,0 +1,38 @@
+extends layout
+block content
+  != page.html
+  - var taglist = []
+  - _.each(contents.articles._.directories, function(item) {
+  -     if (item.index.metadata.tags && item.index.metadata.tags.length > 0) {
+  -       _.each(item.index.metadata.tags.split(','), function(nesteditem, index) {
+  -         taglist.push({key:nesteditem.trim(), obj:item.index, filename:item.index.filename, title:item.index.metadata.title, abstract:item.index.metadata.abstract})
+  -      })
+  -    }
+  - })
+  - taglist2 = _.values(taglist)
+
+  //
+  ul
+    - for (var k in taglist)
+      li.tag 
+        strong #{k} 
+        i #{taglist[k].obj.title} 
+        | #{taglist[k].filename}
+
+  - var grouped = _.groupBy(taglist, 'key')
+
+  ul
+    - for (var k in grouped)
+      li.tag 
+        strong #{k}
+        ul
+          - var groupedValues = _.values(grouped[k])
+          - for (var ki in groupedValues)
+            li.tagged
+              h4.title
+               a(href=groupedValues[ki].obj.url)= groupedValues[ki].title
+              p.abstract= groupedValues[ki].abstract
+              - var objkeys = _.keys(groupedValues[ki].obj)
+              - for (var kk in objkeys)
+                div.kk= objkeys[kk]
+              //div.kv= groupedValues[ki].obj._content

@@ -1,0 +1,22 @@
+extends layout
+
+block header
+
+    include author
+    a.back(href='/') << back to index
+    h1= page.title
+    h2= page.metadata.items
+    h4= page.metadata.tags
+
+    - var tagsarray = page.metadata.tags.split(',')
+          ul
+            each tag in tagsarray
+                li= tag
+    p
+      | written by:
+      mixin author(page.metadata.author)
+
+block content
+  a.back(href='/') << back to index
+  article.post
+    section.content!= page.html

@@ -1,0 +1,77 @@
+extends layout
+block content
+  include author
+  //- underscore helps us filter and sort our articles
+  - var articles = _.chain(contents.articles._.directories).filter(function(item) {
+  -   return (item.index.metadata.type === "post")
+  - }).map(function(item) {
+  -   // map articles to index pages of subdirectories of 'articles'
+  -   return item.index
+  - }).compact().sortBy(function(item) { // compact removes any directories w/o an index
+  -   // sort them by date
+  -   return -item.date
+  - }).first(5).value() // and finally take the first 5
+  h2= page.title 
+  p index-2.jade at work
+  p= page.template 
+        |  at work 4
+
+  //      
+    - var directories = _.map(contents.articles._.directories, function(item) {
+    -                                    return item
+    - })
+
+    ul
+      each dir in directories
+        li
+          strong dir.filename (folder): 
+          span #{dir.filename}
+          br
+          strong  dir.index.filename: 
+          span #{dir.index.filename}
+          br
+          strong dir.index.metadata.tags
+          span #{dir.index.metadata.tags}
+  
+  //
+    - var taglist = []
+    - _.each(contents.articles._.directories, function(item) {
+    -     if (item.index.metadata.tags && item.index.metadata.tags.length > 0) {
+    -       _.each(item.index.metadata.tags.split(','), function(nesteditem, index) {
+    -         taglist.push({key:nesteditem.trim(),obj:item.index,filename:item.index.filename,title:item.index.metadata.title})
+    -      })
+    -    }
+    - })
+    - taglist2 = _.values(taglist)
+
+    ul
+      - for (var k in taglist)
+        li.tag 
+          strong #{k} 
+          i #{taglist[k].obj.title} 
+          | #{taglist[k].filename}
+
+    - var grouped = _.groupBy(taglist, 'key')
+
+    ul
+      - for (var k in grouped)
+        li.tag 
+          strong #{k}
+          ul
+            - var groupedValues = _.values(grouped[k])
+            - for (var ki in groupedValues)
+              li.innerTag= groupedValues[ki].title
+
+
+  each article in articles
+    article.post
+      header
+        h2
+          a(href=article.url)= article.title
+        p
+          mixin author(article.metadata.author)
+      section.content!= article.intro
+      if article.hasMore
+        p.read-more
+          a(href=article.url) read more
+  a(href='archive.html')#archive Visit the archives!

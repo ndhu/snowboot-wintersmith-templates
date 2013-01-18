@@ -1,0 +1,31 @@
+extends layout
+block content
+  include author
+  //- underscore helps us filter and sort our articles
+  - var articles = _.chain(contents.articles._.directories).filter(function(item) {
+  -   return (item.index.metadata.status === "published")
+  - }).map(function(item) {
+  -   // map articles to index pages of subdirectories of 'articles'
+  -   return item.index
+  - }).compact().sortBy(function(item) { // compact removes any directories w/o an index
+  -   // sort them by date
+  -   return -item.date
+  - }).first(locals.index_articles).value() // and finally take the first 5
+ 
+  each article in articles
+    article.post
+      header
+        h3
+          = article.metadata.date
+        h2
+          a(href=article.url)
+            = article.title
+      section.content
+        != article.intro
+      if article.hasMore
+        p.radius.success.label.read-more
+          a(href=article.url) read more &rarr;
+  p.read-more-articles Read more by 
+    a(href="/tagindex/") TAGS 
+    span or by 
+    a(href="/timeline/") TIMELINE.

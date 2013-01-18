@@ -1,0 +1,15 @@
+extends layout
+block prepend head
+  link(rel='stylesheet', href="stylesheets/ahimpr.css")
+block append head
+  script(type='text/javascript', src='js/ah.js')
+  script(type='text/javascript', src='js/modernizr.js')
+  script(type="text/javascript")
+    $(document).ready(function () {
+      AHUI.setupDiashow($(".photobox"),$(".keyControlHolder"));
+    });
+block content
+  a.back(href='/') &larr; BACK TO INDEX
+  article.post
+    section.detail!= page.html
+

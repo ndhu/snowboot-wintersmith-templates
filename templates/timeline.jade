@@ -1,0 +1,21 @@
+extends layout
+block content
+  != page.html
+  - var timelist = []
+  - _.each(contents.articles._.directories, function(item) {
+  -     if (item.index.metadata.date) {
+  -         timelist.push(item.index);
+  -      }
+  - })
+  - var sorted = _.sortBy(timelist, function(item) {
+  -   return -new Date(item.metadata.date)
+  - })
+  div.timeline
+    h1 TIMELINE
+    - for (var item in sorted) 
+      div.date
+        = sorted[item].metadata.date
+      div.title
+        h4
+          a(href=sorted[item].url)
+            = sorted[item].title

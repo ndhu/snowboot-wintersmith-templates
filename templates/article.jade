@@ -1,0 +1,12 @@
+extends layout
+block content
+  a.back(href='/') &larr; BACK TO INDEX
+  br
+  br
+  h2
+    = page.title
+  article.single.post
+    section.content
+      != page.html
+    br
+    a.back(href='/') &larr; BACK TO INDEX

@@ -1,0 +1,100 @@
+!!! 5
+html(lang='en')
+  head
+    block head
+      meta(charset='utf-8')
+      title
+        block title
+          = locals.title
+      link(rel='alternate', href=locals.url+'/feed.xml', type='application/rss+xml', title=locals.description)
+      link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=PT+Sans:400,700', type='text/css')
+      link(rel='stylesheet', href='/stylesheets/app.css')
+      link(rel='stylesheet', href='/stylesheets/monokai.css')
+      script(type='text/javascript', src='/javascripts/foundation/jquery.js')
+      script(type='text/javascript', src='/javascripts/foundation/modernizr.foundation.js')
+      script(type='text/javascript', src='/javascripts/foundation/jquery.foundation.tooltips.js')
+      script(type='text/javascript', src='http://yandex.st/highlightjs/7.3/highlight.min.js')
+      script(type='text/javascript', src='/javascripts/ah.js')
+      script(type='text/javascript')
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-5499195-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+  body
+    block header
+      header.header
+        div.row.inner.top-name
+            h1.super
+              a(href=locals.url)= locals.name
+        div.container.top-bar.home-border
+          div.row
+            div.nav-holder
+              ul.nav.link-list
+                each item in locals.nav
+                  li
+                    span.pikto 
+                      =item.pikto
+                    a(href=item.url)= item.name
+    div#content.row
+      block content
+        h2 Hello Hulstkamp
+    footer
+      div.inner.row
+        block footer
+          ul.piktonav.nine.columns
+            li
+              a(href=locals.nav[0].url)
+                span.pikto a
+                span.txt #{locals.nav[0].name}
+            li
+              a(href=locals.nav[1].url)
+                span.pikto J
+                span.txt #{href=locals.nav[1].name}
+            li
+              a(href=locals.nav[2].url)
+                span.pikto {
+                span.txt #{locals.nav[2].name}
+            li
+              a(href=locals.nav[3].url)
+                span.pikto Y
+                span.txt #{locals.nav[3].name}
+            li
+              a(href=locals.nav[4].url)
+                span.pikto @
+                span.txt #{locals.nav[4].name}
+            //
+              li
+                a(href="http://www.twitter.com/ndkamp/")
+                  span.pikto t
+                  span.txt TWITTER
+            li
+              a(href="/feed.xml")
+                span.pikto ^
+                span.txt FEED
+          ul.iconnav.three.columns
+            li
+              a.has-tip.tip-top(data-width='210', title='Design-Objects at cocomoshi shop')(href='http://www.cocomoshi.ch')
+                span.icon.cocomoshi
+                span.txt COCOMOSHI
+            li
+              a.has-tip.tip-top(data-width='210', title='City comparisons by the crowd at CityClash')(href='http://www.cityclash.org')
+                span.icon.cityclash
+                span.txt CITYCLASH
+    #copyright
+      div.row
+        span.four.columns &copy; #{ new Date().getFullYear() }
+          a(href="about")  #{ locals.owner }
+        span.four.columns static site generator:
+          a  wintersmith
+        span.four.columns(style='text-align: right') template by
+          a  Andreas hulstkamp
+  script
+    $(document).ready(function() {
+        AH.setupIndex();
+        $(document).foundationTooltips();
+        hljs.initHighlightingOnLoad();
+    }) 

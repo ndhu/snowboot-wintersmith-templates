@@ -1,0 +1,8 @@
+mixin tag(tagName)
+	- var tag = contents.tags[tagName + '.json']
+		if tag
+			span.pikto J
+				a(href=tagName)
+					= tag.metadata.name
+		else
+			= tagName
